@@ -115,15 +115,29 @@ ul.items > li:hover {
   cursor: pointer;
 }
 ul.items > li:hover h5 {
-  color: orange;
+  color: #ffa500;
 }
 .item {
   padding: 5px 5px 5px;
   flex: 1;
+  clear: both;
+  
 }
 .item h5 {
   margin-top: 0;
   margin-bottom: 5px;
+}
+
+.item2 {
+  -webkit-appearance: none;
+  border: none;
+  outline: none;
+  color: red;
+  /* float: left; */
+  width: 5px;
+  cursor: pointer;
+  font-size: 10px;
+
 }
 img {
   max-width: 100%;
