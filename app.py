@@ -188,7 +188,7 @@ def create_venue_submission():
   # insert form data as a new Venue record in the db, instead
   # modify data to be the data object returned from db insertio
   
-  form = VenueForm(request.form)
+  form = VenueForm()
   if form.validate_on_submit():
         # new_venue = VenueForm()
         venue= Venue(name = form.name.data,
@@ -261,12 +261,6 @@ def delete_venue(venue_id):
       finally:
         db.session.close()
         
-  # TODO: Complete this endpoint for taking a venue_id, and using
-  # SQLAlchemy ORM to delete a record. Handle cases where the session commit could fail.
-
-  # BONUS CHALLENGE: Implement a button to delete a Venue on a Venue Page, have it so that
-  # clicking that button delete it from the db then redirect the user to the homepage
-        # return render_template('pages/home.html')
 
 #  Artists
 #  ----------------------------------------------------------------
@@ -477,29 +471,31 @@ def create_artist_form():
 @app.route('/artists/create', methods=['POST'])
 def create_artist_submission():
       # form = ArtistForm()
-      try:
-        artist = Artist(
-        name = request.form.get('name'),
-        city = request.form.get('city'),
-        phone = request.form.get('phone'),
-        image_link = request.form.get('image_link'),
-        facebook_link = request.form.get('facebook_link'),
-        genres = request.form.get('genres'),
-        website = request.form.get('website'),
-        looking_for_venue = False if request.form.get('seeking_venue') is None else True,
-        seeking_description = request.form.get('seeking_description')
-        )
-        db.session.add(artist)
-        db.session.commit()
-        flash('Artist ' + request.form['name'] + ' was successfully listed!')
-      except:
-        db.session.rollback()
-        flash('An error occurred. Artist  ' + request.form['name'] + ' could not be listed.') 
-        print(sys.exc_info())
-      finally:
-        db.session.close()
-    
-      return render_template('pages/home.html')
+      form = ArtistForm()
+      if form.validate_on_submit():
+            try:
+              artist = Artist(
+              name = request.form.get('name'),
+              city = request.form.get('city'),
+              phone = request.form.get('phone'),
+              image_link = request.form.get('image_link'),
+              facebook_link = request.form.get('facebook_link'),
+              genres = request.form.get('genres'),
+              website = request.form.get('website'),
+              looking_for_venue = False if request.form.get('seeking_venue') is None else True,
+              seeking_description = request.form.get('seeking_description')
+              )
+              db.session.add(artist)
+              db.session.commit()
+              flash('Artist ' + request.form['name'] + ' was successfully listed!')
+            except:
+              db.session.rollback()
+              flash('An error occurred. Artist  ' + request.form['name'] + ' could not be listed.') 
+              print(sys.exc_info())
+            finally:
+              db.session.close()
+      
+            return render_template('pages/home.html')
 
 
 #  Shows
